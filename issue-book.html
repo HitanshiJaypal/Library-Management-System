@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Issue Book — Library Management System</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="top-navbar">
+    <a href="dashboard.html" class="navbar-brand-text">
+      <div class="brand-icon">📚</div>
+      LibraryMS
+    </a>
+    <div class="nav-links">
+      <a href="dashboard.html" class="nav-link-item">🏠 Dashboard</a>
+      <a href="books.html" class="nav-link-item">📖 Books</a>
+      <a href="add-book.html" class="nav-link-item">➕ Add Book</a>
+      <a href="issue-book.html" class="nav-link-item active">📤 Issue Book</a>
+      <a href="history.html" class="nav-link-item">📋 History</a>
+    </div>
+    <div class="nav-right">
+      <span style="color:rgba(255,255,255,0.6);font-size:0.85rem;">👤 Admin</span>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="page-header fade-in">
+      <h1 class="page-title">Issue Book</h1>
+      <p class="page-subtitle">Assign a book to a student or member</p>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-lg-7 col-md-9">
+
+        <!-- Book Info Card -->
+        <div class="section-card fade-in-1 mb-3" id="book-info-card">
+          <div class="section-card-header">
+            <div class="section-card-title">📘 Book Details</div>
+          </div>
+          <div class="section-card-body">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label-custom">Book Name</label>
+                <div id="issue-book-name" style="font-weight:600;color:#1e293b;padding:10px 0;font-size:0.95rem;">—</div>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label-custom">Author</label>
+                <div id="issue-book-author" style="padding:10px 0;font-size:0.9rem;color:#475569;">—</div>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label-custom">Category</label>
+                <div id="issue-book-category" style="padding:10px 0;font-size:0.9rem;color:#475569;">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- No book selected notice -->
+        <div id="no-book-notice" class="section-card fade-in-1 mb-3" style="display:none;">
+          <div class="section-card-body text-center" style="padding:2rem;">
+            <div style="font-size:2.5rem;margin-bottom:0.75rem;">🔍</div>
+            <p style="color:#64748b;margin-bottom:1rem;">No book selected. Please choose a book from the books list.</p>
+            <a href="books.html" class="btn-primary-custom">Go to Books</a>
+          </div>
+        </div>
+
+        <!-- Issue Form -->
+        <div class="section-card fade-in-2" id="issue-form-wrapper">
+          <div class="section-card-header">
+            <div class="section-card-title">📤 Issue Details</div>
+          </div>
+          <div class="section-card-body">
+
+            <div id="issue-alert" class="alert-custom" style="display:none;"></div>
+
+            <form id="issue-form" onsubmit="handleIssueBook(event)">
+              <div class="mb-3">
+                <label class="form-label-custom">Issued To (Name) <span style="color:#ef4444;">*</span></label>
+                <input type="text" id="issued-by" class="form-control-custom" placeholder="e.g. Rahul Sharma"/>
+              </div>
+
+              <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                  <label class="form-label-custom">Issue Date <span style="color:#ef4444;">*</span></label>
+                  <input type="date" id="issued-date" class="form-control-custom"/>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label-custom">Return Date <span style="color:#ef4444;">*</span></label>
+                  <input type="date" id="return-date" class="form-control-custom"/>
+                </div>
+              </div>
+
+              <div style="display:flex;gap:10px;">
+                <button type="submit" class="btn-success-custom">📤 Issue Book</button>
+                <a href="books.html" class="btn-outline-custom">Cancel</a>
+              </div>
+            </form>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+  <script>
+    const bookId = getQueryParam('id');
+    if (!bookId) {
+      document.getElementById('book-info-card').style.display = 'none';
+      document.getElementById('no-book-notice').style.display = 'block';
+      document.getElementById('issue-form-wrapper').style.display = 'none';
+    } else {
+      loadIssueBook();
+      setDefaultDates();
+    }
+  </script>
+</body>
+</html>
